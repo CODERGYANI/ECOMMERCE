@@ -1,0 +1,9 @@
+usermodel: 
+i: name
+ii: email
+iii: password(should be encrypted afterwards)
+iiii: cart 
+v: isadmin
+vi:orders
+contact:number
+picture-db
