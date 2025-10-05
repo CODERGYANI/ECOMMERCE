@@ -40,7 +40,7 @@ module.exports.loginuser=async function(req,res){
     if(user){
         let match=bcrypt.compare(password,user.password);
         if(match){
-              let tokken = genratetoken(match);
+            let tokken = genratetoken(match);
             res.cookie("token",tokken);
          
 
