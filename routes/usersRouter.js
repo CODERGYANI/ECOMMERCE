@@ -7,6 +7,13 @@ const {usercreater,loginuser}=require("../controllers/usercreater");
 router.get("/",(req,res)=>{
     res.send("hey there from users router");
 });
+router.get('/register',(req,res)=>{
+    res.render("register");
+})
+router.get('/login',(req,res)=>{
+    res.render('login');
+})
+
 router.post("/register",usercreater);
 router.post("/login",loginuser);
 

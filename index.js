@@ -25,5 +25,4 @@ app.use("/users",usersRouter);
 app.use("/product",productRouter);
 app.use("/",indexRouter);
 const mongoose=require("./config/mongoose");
-
 app.listen(3000);

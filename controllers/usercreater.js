@@ -3,12 +3,12 @@ const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 
 const {genratetoken}=require("../utils/genratetoken");
-const usercreater =  (req,res)=>{
+const usercreater = async (req,res)=>{
     let {name,email,password}=req.body;
     console.log("le re lund ke");
-    let user=usermodel.findOne({email});
+    let user=await usermodel.findOne({email});
     if(user){
-        res.status(401).send("bhai tera pahle hi account hai");
+        return res.redirect('/users/login');
     }else{
          try{
       let n=null;
@@ -21,7 +21,7 @@ const usercreater =  (req,res)=>{
             });
              let tokken = genratetoken(m);
             res.cookie("token",tokken);
-            res.send("hogya re hogya");
+            return res.redirect('/users/login');
         });
        });
        
@@ -38,18 +38,19 @@ module.exports.loginuser=async function(req,res){
     let {password,email}=req.body;
     const user=await usermodel.findOne({email});
     if(user){
-        let match=bcrypt.compare(password,user.password);
+        let match=await bcrypt.compare(password,user.password);
         if(match){
-            let tokken = genratetoken(match);
+            let tokken = genratetoken(user);
             res.cookie("token",tokken);
          
 
-           return  res.send(`Hi there, welcome ${user.name} here is your cookie ! : ${tokken} `);
+           return  res.redirect('/shop');
         }else{
-            return res.send("email or password is incorrect");
+            return res.redirect('/users/login');
         }
     }else{
-        return res.send("user doesnt exisits,kindly login!");
+        console.log('hai hi nhi user us email par');
+        return res.redirect('/users/register');
     }
 }
 module.exports.usercreater= usercreater;
