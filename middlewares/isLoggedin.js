@@ -4,7 +4,7 @@ module.exports.isLoggedin=async function(req,res,next){
     let token=req.cookies.token;
     if(!token){
         req.flash("error","you are not logged in");
-        return res.redirect('/');
+        return res.redirect('/users/login');
     }else{
         try{
           let decoded=jwt.verify(token,process.env.jwt_key);

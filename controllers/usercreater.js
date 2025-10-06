@@ -53,4 +53,8 @@ module.exports.loginuser=async function(req,res){
         return res.redirect('/users/register');
     }
 }
+module.exports.logout= function(req,res){
+    res.cookie('token',"");
+    res.redirect('/users/login');  
+}
 module.exports.usercreater= usercreater;
