@@ -336,7 +336,7 @@
       </div>
       <nav class="actions" aria-label="User actions">
         <a class="action-btn" href="/orders" aria-label="View my orders">My Orders</a>
-        <a class="action-btn" href="/cart" aria-label="View my cart">My Cart</a>
+        <a class="action-btn" href="/users/cart" aria-label="View my cart">My Cart</a>
         <a class="logout-btn" href="/users/logout" aria-label="Logout">Logout</a>
       </nav>
     </div>
@@ -411,6 +411,10 @@
                     <% } else { %>
                       <span class="price"><%= product.price %> ₹</span>
                     <% } %>
+                     <form action="/users/cart" method="POST" style="margin-left:auto;">
+    <input type="hidden" name="productId" value="<%= product._id %>">
+    <button type="submit" class="action-btn" style="padding: 6px 10px; font-size: 13px;">Add to Cart</button>
+</form>
                   </div>
                 </div>
               </div>
