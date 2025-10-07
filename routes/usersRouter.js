@@ -4,6 +4,7 @@ const usermodel=require('../models/usermodel');
 const cookie=require('cookie-parser');
 const jwt=require('jsonwebtoken');
 const productmodel=require('../models/productmodel');
+const {isLoggedin}=require('../middlewares/isLoggedin');
 
 const {usercreater,loginuser,logout}=require("../controllers/usercreater");
 router.get("/",(req,res)=>{
@@ -19,7 +20,7 @@ router.get('/login',(req,res)=>{
 router.post("/register",usercreater);
 router.post("/login",loginuser);
 router.get("/logout",logout);
-router.get('/cart',async (req,res)=>{
+router.get('/cart',isLoggedin,async (req,res)=>{
     let token=req.cookies.token;
     let payload=jwt.verify(token,process.env.jwt_key);
     let mail=payload.email;
@@ -29,7 +30,7 @@ router.get('/cart',async (req,res)=>{
 
     res.render('cart',{products});
 })
-router.post("/cart",async (req,res)=>{
+router.post("/cart",isLoggedin,async (req,res)=>{
     let token=req.cookies.token;
     let payload=jwt.verify(token,process.env.jwt_key);
     let mail=payload.email;
@@ -44,7 +45,7 @@ router.post("/cart",async (req,res)=>{
 
 
 })
-router.post("/cart/remove/:productId",async (req,res)=>{
+router.post("/cart/remove/:productId",isLoggedin,async (req,res)=>{
     let token=req.cookies.token;
     let payload=jwt.verify(token,process.env.jwt_key);
     let mail=payload.email;
