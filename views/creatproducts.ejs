@@ -1,210 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Product</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+    :root {
+      /* Palette: 1 primary + 3 neutrals + 1 accent (5 colors total) */
+      --color-bg: #f4f6f8;      /* page background (neutral) */
+      --color-panel: #ffffff;   /* surfaces (neutral) */
+      --color-text: #111827;    /* foreground (neutral) */
+      --color-primary: #0ea5e9; /* brand primary */
+      --color-danger: #ef4444;  /* error accent */
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
     }
 
     body {
-      background-color: #f4f6f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
-      padding: 30px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    .page {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 20px 16px;
+      background: var(--color-panel);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 8px 20px rgba(14,165,233,0.3);
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: start center;
+      padding: 28px 0 40px;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--color-panel);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: rgba(17, 24, 39, 0.65);
+      font-size: 13px;
+    }
+
+    /* Alerts */
+    .alerts {
+      margin-bottom: 16px;
+    }
+    .alert {
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.4;
+      border: 1px solid transparent;
+    }
+    .alert + .alert { margin-top: 10px; }
+
+    .alert-neutral {
+      background: rgba(17, 24, 39, 0.04);
+      color: rgba(17, 24, 39, 0.8);
+      border-color: rgba(17, 24, 39, 0.08);
+    }
+    .alert-success {
+      background: rgba(14,165,233, 0.10);
+      color: #075985; /* darkened primary for contrast */
+      border-color: rgba(14,165,233, 0.25);
+    }
+    .alert-danger {
+      background: rgba(239, 68, 68, 0.10);
+      color: #7f1d1d;
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Form */
     form {
-      width: 650px;
-      background-color: #ffffff;
-      border-radius: 15px;
-      padding: 30px 40px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    }
-
-    h2 {
-      text-align: center;
-      color: #111827;
-      margin-bottom: 30px;
-      font-size: 22px;
+      margin-top: 8px;
+      display: grid;
+      gap: 16px;
     }
 
     label {
-      display: block;
+      display: inline-block;
       font-weight: 600;
-      margin-bottom: 5px;
-      color: #374151;
-      font-size: 14px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+      color: rgba(17, 24, 39, 0.9);
     }
 
     input[type="text"],
     input[type="number"],
-    input[type="file"] {
+    input[type="file"],
+    textarea {
       width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(17, 24, 39, 0.12);
       font-size: 14px;
       outline: none;
-      transition: 0.3s ease;
+      background: var(--color-panel);
+      color: var(--color-text);
+      transition: border-color .2s ease, box-shadow .2s ease;
     }
 
-    input:focus {
-      border-color: #111827;
+    textarea { resize: vertical; min-height: 110px; }
+
+    input:focus, textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(14,165,233,0.18);
     }
 
-    .color-group {
-      background-color: #f9fafb;
-      border-radius: 10px;
-      padding: 15px 20px;
-      margin-top: 20px;
+    .grid-2 {
+      display: grid;
+      gap: 12px;
+    }
+    @media (min-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
     }
 
-    .color-group h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: #111827;
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 6px 0 2px;
+      color: rgba(17,24,39,0.8);
+      letter-spacing: .02em;
     }
 
-    .color-field {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .color-field input[type="color"] {
-      width: 45px;
-      height: 35px;
-      border: none;
-      cursor: pointer;
-      background: none;
-    }
-
-    .preview-box {
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 12px;
-      background-color: #f9fafb;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+    /* Preview Card */
+    .preview {
+      display: grid;
+      gap: 12px;
+      background: linear-gradient(to bottom, rgba(17, 24, 39, 0.02), rgba(17, 24, 39, 0.0));
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px dashed rgba(17, 24, 39, 0.12);
     }
 
     .product-image {
       width: 100%;
       height: 200px;
-      background-color: #e5e7eb;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #6b7280;
+      border-radius: 12px;
+      background: rgba(17,24,39,0.06);
+      display: grid;
+      place-items: center;
+      color: rgba(17, 24, 39, 0.6);
       font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
     }
 
-    .product-info {
-      text-align: center;
-    }
+    .product-info { text-align: center; }
 
     .product-info h4 {
+      margin: 8px 0 4px;
       font-size: 18px;
-      margin: 8px 0;
-      color: #111827;
+      letter-spacing: 0.01em;
     }
 
     .price-row {
-      display: flex;
-      justify-content: center;
+      display: inline-flex;
       align-items: baseline;
       gap: 10px;
     }
-
     .price {
       font-size: 18px;
-      font-weight: 600;
-      color: #111827;
+      font-weight: 700;
+      color: var(--color-text);
     }
-
     .discounted {
       font-size: 14px;
-      color: #ef4444;
+      color: var(--color-danger);
       text-decoration: line-through;
     }
 
-    button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 12px;
-      background-color: #111827;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s ease;
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 6px;
     }
 
-    button:hover {
-      background-color: #374151;
+    button[type="submit"] {
+      appearance: none;
+      border: 1px solid transparent;
+      background: var(--color-primary);
+      color: #ffffff;
+      padding: 12px 16px;
+      min-width: 160px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: transform .05s ease, box-shadow .2s ease, background .15s ease;
+      box-shadow: 0 10px 25px rgba(14,165,233,0.35);
+    }
+    button[type="submit"]:hover {
+      background: #0284c7; /* darker primary tone */
+      box-shadow: 0 12px 28px rgba(14,165,233,0.42);
+    }
+    button[type="submit"]:active {
+      transform: translateY(1px);
+    }
+
+    /* Small helper text */
+    .hint {
+      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(17,24,39,0.65);
     }
   </style>
 </head>
 <body>
-  <form action="/owners/product/create" method="post" enctype="multipart/form-data">
-    <h2>🛍 Create Product</h2>
-
-    <label for="pname">Product Name</label>
-    <input type="text" id="pname" name="pname" placeholder="Enter product name" required>
-
-    <label for="price">Price (₹)</label>
-    <input type="number" id="price" name="price" placeholder="Enter product price" required>
-
-    <label for="dprice">Discounted Price (₹)</label>
-    <input type="number" id="dprice" name="dprice" placeholder="Enter discounted price">
-
-    <label for="image">Product Image</label>
-    <input type="file" id="image" name="image" accept="image/*">
-
-    <div class="color-group">
-      <h3>🎨 Panel Customization</h3>
-
-      <div class="color-field">
-        <label for="bgcolor">Background Color</label>
-        <input type="color" id="bgcolor" name="bgcolor" value="#f4f6f8">
-      </div>
-
-      <div class="color-field">
-        <label for="panelcolor">Panel Color</label>
-        <input type="color" id="panelcolor" name="panelcolor" value="#ffffff">
-      </div>
-
-      <div class="color-field">
-        <label for="textcolor">Text Color</label>
-        <input type="color" id="textcolor" name="textcolor" value="#111827">
-      </div>
-    </div>
-
-    <div class="preview-box">
-      <div class="product-image">Image Preview Area</div>
-      <div class="product-info">
-        <h4>Product Name Preview</h4>
-        <div class="price-row">
-          <span class="price">₹0</span>
-          <span class="discounted">₹0</span>
+  <div class="page">
+    <header>
+      <div class="container">
+        <div class="brand" aria-label="Brand">
+          <span class="brand-badge" aria-hidden="true">PR</span>
+          <div>
+            <h1 class="brand-title">Create Product</h1>
+            <p class="subtitle">Add details, pricing, and a preview before publishing</p>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
 
-    <button type="submit">Submit Product</button>
-  </form>
+    <main>
+      <div class="container card" role="region" aria-labelledby="form-title">
+        <div class="card-header">
+          <h2 id="form-title" class="title">Product details</h2>
+        </div>
+
+        <div class="alerts" role="status" aria-live="polite">
+          <% if ((success_msg && success_msg.length > 0) || (error_msg && error_msg.length > 0)) { %>
+            <% if (success_msg && success_msg.length > 0) { %>
+              <div class="alert alert-success"><%= success_msg[0] %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+              <div class="alert alert-danger"><%= error_msg[0] %></div>
+            <% } %>
+          <% } else { %>
+            <div class="alert alert-neutral">No messages</div>
+          <% } %>
+        </div>
+
+        <form action="/owners/product/create" method="post" enctype="multipart/form-data" novalidate>
+          <div>
+            <label for="pname">Product Name</label>
+            <input type="text" id="pname" name="name" placeholder="Enter product name" required aria-required="true" />
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="price">Price (₹)</label>
+              <input type="number" id="price" name="price" placeholder="Enter product price" required aria-required="true" />
+            </div>
+            <div>
+              <label for="dprice">Discounted Price (₹)</label>
+              <input type="number" id="dprice" name="discount" placeholder="Enter discounted price" />
+              <p class="hint">Optional. Shown with a strike-through next to price.</p>
+            </div>
+          </div>
+
+          <div>
+            <label for="styleinfo">Product Style Information</label>
+            <textarea id="styleinfo" name="styleinfo" rows="5" placeholder="Write product details, fabric info, design notes, etc..."></textarea>
+          </div>
+
+          <div>
+            <label for="image">Product Image</label>
+            <input type="file" id="image" name="image" accept="image/*" />
+            <p class="hint">PNG, JPG up to a few MB.</p>
+          </div>
+
+          <div>
+            <p class="section-title">Custom colors (optional)</p>
+            <div class="grid-2">
+              <div>
+                <label for="bgcolor">Background Color</label>
+                <input type="text" id="bgcolor" name="bgcolor" placeholder="#f4f6f8 or 'white'" />
+              </div>
+              <div>
+                <label for="panelcolor">Panel Color</label>
+                <input type="text" id="panelcolor" name="panelcolor" placeholder="#ffffff or 'black'" />
+              </div>
+            </div>
+            <div>
+              <label for="textcolor">Text Color</label>
+              <input type="text" id="textcolor" name="textcolor" placeholder="#111827 or 'blue'" />
+            </div>
+          </div>
+
+          <div>
+            <p class="section-title">Preview</p>
+            <div class="preview">
+              <div class="product-image">Image Preview Area</div>
+              <div class="product-info">
+                <h4>Product Name Preview</h4>
+                <div class="price-row">
+                  <span class="price">₹0</span>
+                  <span class="discounted">₹0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" aria-label="Submit product">Submit Product</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

@@ -17,6 +17,14 @@ app.use(expressSession({
     secret:process.env.EXPRESS_SESSION_SECRET,
 }))
 app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success");
+  res.locals.error_msg = req.flash("error");
+  next();
+});
+app.use('/uploads', express.static('uploads'));
+
+
 const usersRouter=require("./routes/usersRouter");
 const productRouter=require("./routes/productRouter");
 const indexRouter=require("./routes/indexRouter");

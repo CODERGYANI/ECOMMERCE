@@ -1,13 +1,12 @@
 const mongoose=require('mongoose');
-const poductschema=new mongoose.Schema({
+const productschema=new mongoose.Schema({
     name:String,
     price:Number,
-    disconnected:Boolean,
     discount:Number,
     bgcolor:String,
     panelcolour:String,
     textcolour:String,
-    image:String,
+    image:Buffer,
 
 });
 module.exports=mongoose.model("product",productschema);
