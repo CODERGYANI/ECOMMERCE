@@ -127,6 +127,26 @@
   }
   .remove-btn:hover { background-color: #b91c1c; transform: translateY(-1px); }
 
+  /* Proceed button */
+  .proceed-container {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .proceed-btn {
+    background-color: #16a34a;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  .proceed-btn:hover {
+    background-color: #15803d;
+    transform: translateY(-2px);
+  }
+
 </style>
 </head>
 <body>
@@ -174,6 +194,13 @@
     <p style="grid-column: 1/-1; text-align:center; color:#6b7280;">Your cart is empty.</p>
   <% } %>
 </div>
+
+
+<% if (products && products.length > 0) { %>
+  <div class="proceed-container">
+    <a href="/users/buy" class="proceed-btn">Proceed to Checkout</a>
+  </div>
+<% } %>
 
 </body>
 </html>

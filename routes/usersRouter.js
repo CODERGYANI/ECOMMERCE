@@ -26,8 +26,6 @@ router.get('/cart',isLoggedin,async (req,res)=>{
     let mail=payload.email;
     let user =await usermodel.findOne({email:mail});
     let products = await productmodel.find({ _id: { $in: user.cart } });
-
-
     res.render('cart',{products});
 })
 router.post("/cart",isLoggedin,async (req,res)=>{
@@ -45,6 +43,17 @@ router.post("/cart",isLoggedin,async (req,res)=>{
 
 
 })
+router.get('/buy',isLoggedin,async (req,res)=>{
+    let token=req.cookies.token;
+    let payload=jwt.verify(token,process.env.jwt_key);
+    let mail=payload.email;
+    let user =await usermodel.findOne({email:mail});
+    let products = await productmodel.find({ _id: { $in: user.cart } });
+    res.render('buy',{products});
+
+    
+
+});
 router.post("/cart/remove/:productId",isLoggedin,async (req,res)=>{
     let token=req.cookies.token;
     let payload=jwt.verify(token,process.env.jwt_key);

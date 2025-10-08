@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 25px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      padding: 10px;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .total-section {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .btn {
+      display: inline-block;
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧾 Order Confirmation</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price (₹)</th>
+          <th>Qty</th>
+          <th>Discount (%)</th>
+          <th>Total (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+          let subtotal = 0;
+          let discountAmt = 0;
+          products.forEach(p => {
+            let itemTotal = p.price * p.quantity;
+            let itemDiscount = (itemTotal * p.discount) / 100;
+            subtotal += itemTotal;
+            discountAmt += itemDiscount;
+        %>
+          <tr>
+            <td><%= p.name %></td>
+            <td><%= p.price %></td>
+            <td><%= p.quantity %></td>
+            <td><%= p.discount %></td>
+            <td><%= itemTotal - itemDiscount %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <div class="total-section">
+      <p><strong>Subtotal:</strong> ₹<%= subtotal %></p>
+      <p><strong>Total Discount:</strong> ₹<%= discountAmt.toFixed(2) %></p>
+      <p><strong>Final Payable:</strong> ₹<%= (subtotal - discountAmt).toFixed(2) %></p>
+    </div>
+
+    <form action="/payment" method="POST">
+      <input type="hidden" name="amount" value="<%= (subtotal - discountAmt).toFixed(2) %>">
+      <button type="submit" class="btn">Proceed to Payment</button>
+    </form>
+  </div>
+</body>
+</html>
