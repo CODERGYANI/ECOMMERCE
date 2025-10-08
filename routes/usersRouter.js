@@ -8,7 +8,7 @@ const {isLoggedin}=require('../middlewares/isLoggedin');
 
 const {usercreater,loginuser,logout}=require("../controllers/usercreater");
 router.get("/",(req,res)=>{
-    res.send("hey there from users router");
+    res.render('starting');
 });
 router.get('/register',(req,res)=>{
     res.render("register");

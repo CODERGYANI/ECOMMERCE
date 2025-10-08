@@ -5,51 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Order Confirmation</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap');
+
+    :root {
+      --bg: #f8f6f2;         /* ivory */
+      --fg: #1e1b16;         /* espresso (primary text) */
+      --muted: #6b675f;      /* warm gray (secondary) */
+      --card: #ffffff;       /* white */
+      --accent: #c9a857;     /* metallic gold */
+    }
+
+    /* Base + smoothing */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f8f8;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--fg);
+      background: var(--bg);
       margin: 0;
       padding: 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.55;
     }
+
     .container {
-      background: #fff;
-      border-radius: 10px;
-      max-width: 800px;
+      background: var(--card);
+      border-radius: 16px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 25px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 28px;
+      border: 1px solid rgba(30,27,22,0.12); /* uses --fg with alpha, not a new color */
+      box-shadow:
+        0 1px 2px rgba(30,27,22,0.04),
+        0 8px 24px rgba(30,27,22,0.08);
+      overflow-x: auto; /* allow table scroll on small screens */
     }
+
+    h2 {
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.2px;
+      margin: 0 0 16px 0;
+      color: var(--fg);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 12px;
+      min-width: 640px; /* ensure columns remain readable; container scrolls if needed */
     }
+
     th, td {
-      border-bottom: 1px solid #ddd;
       text-align: center;
-      padding: 10px;
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(30,27,22,0.08);
+      color: var(--fg);
+      font-size: 14px;
     }
+
     th {
-      background-color: #f0f0f0;
+      background: rgba(30,27,22,0.04);
+      color: var(--fg);
+      font-weight: 600;
+      text-transform: none;
     }
+
+    /* First column left-aligned for readability */
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    tbody tr:hover {
+      background: rgba(30,27,22,0.03);
+    }
+
     .total-section {
       text-align: right;
       margin-top: 20px;
-      font-size: 18px;
+      font-size: 16px;
+      color: var(--muted);
     }
+    .total-section p {
+      margin: 6px 0;
+    }
+    .total-section p strong {
+      color: var(--fg);
+      font-weight: 600;
+    }
+    /* Emphasize final payable */
+    .total-section p:last-child strong {
+      color: var(--accent);
+    }
+
     .btn {
       display: inline-block;
-      background: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
+      background: var(--accent);
+      color: #1e1b16; /* ensure contrast against gold */
+      padding: 12px 22px;
+      border: 1px solid rgba(30,27,22,0.10);
+      border-radius: 999px;
       text-decoration: none;
-      font-weight: bold;
-      margin-top: 20px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      margin-top: 18px;
+      cursor: pointer;
+      box-shadow:
+        0 1px 0 rgba(30,27,22,0.06),
+        0 6px 16px rgba(30,27,22,0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
     }
+
     .btn:hover {
-      background: #0056b3;
+      filter: brightness(0.95);
+      transform: translateY(-1px);
+      box-shadow:
+        0 2px 0 rgba(30,27,22,0.06),
+        0 10px 22px rgba(30,27,22,0.16);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow:
+        0 1px 0 rgba(30,27,22,0.06),
+        0 6px 16px rgba(30,27,22,0.12);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(201,168,87,0.45); /* accent with alpha */
+      outline-offset: 2px;
+    }
+
+    /* Responsive polish */
+    @media (max-width: 640px) {
+      body { padding: 16px; }
+      .container { padding: 20px; }
+      h2 { font-size: 24px; }
+      th, td { padding: 12px 10px; font-size: 13px; }
+      .total-section { font-size: 15px; }
+      .btn { width: 100%; text-align: center; }
+    }
+
+    /* Reduced motion accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
     }
   </style>
 </head>

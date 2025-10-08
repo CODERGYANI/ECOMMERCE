@@ -5,148 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Product</title>
   <style>
+    /* Revamped palette + typography for a premium bag brand (HTML unchanged) */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
     :root {
-      /* Palette: 1 primary + 3 neutrals + 1 accent (5 colors total) */
-      --color-bg: #f4f6f8;      /* page background (neutral) */
-      --color-panel: #ffffff;   /* surfaces (neutral) */
-      --color-text: #111827;    /* foreground (neutral) */
-      --color-primary: #0ea5e9; /* brand primary */
-      --color-danger: #ef4444;  /* error accent */
+      /* 5-color system: 1 accent + 3 neutrals + 1 text */
+      --color-bg: #f8f6f2;       /* ivory background */
+      --color-panel: #ffffff;    /* clean white panels */
+      --color-text: #1e1b16;     /* espresso text */
+      --color-muted: #6b675f;    /* warm gray secondary */
+      --color-accent: #c9a857;   /* metallic gold accent */
     }
 
     * { box-sizing: border-box; }
 
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
 
     body {
       margin: 0;
       background: var(--color-bg);
       color: var(--color-text);
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      line-height: 1.55;
     }
 
-    .page {
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-    }
+    .page { min-height: 100dvh; display: flex; flex-direction: column; }
 
     header {
       padding: 20px 16px;
       background: var(--color-panel);
-      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      border-bottom: 1px solid rgba(30,27,22,0.08);
     }
 
-    .container {
-      width: 100%;
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
+    .container { width: 100%; max-width: 880px; margin: 0 auto; padding: 0 16px; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
 
     .brand-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--color-primary);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      box-shadow: 0 8px 20px rgba(14,165,233,0.3);
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--color-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--color-text);
+      font-weight: 800; letter-spacing: 0.02em;
+      box-shadow: 0 6px 18px rgba(201,168,87,0.35);
     }
 
-    .brand h1 {
-      font-size: 18px;
-      margin: 0;
-      line-height: 1.2;
-      letter-spacing: 0.01em;
+    /* Headings use Playfair for a luxury tone */
+    .brand-title, .title, .product-info h4 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+      color: var(--color-text);
     }
 
-    main {
-      flex: 1;
-      display: grid;
-      place-items: start center;
-      padding: 28px 0 40px;
-    }
+    .brand h1 { font-size: 18px; margin: 0; line-height: 1.2; letter-spacing: 0.01em; }
+
+    main { flex: 1; display: grid; place-items: start center; padding: 28px 0 40px; }
 
     .card {
       width: 100%;
       background: var(--color-panel);
       border-radius: 16px;
       padding: 24px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.06);
-      border: 1px solid rgba(17, 24, 39, 0.06);
+      box-shadow: 0 12px 30px rgba(15,14,12,0.07);
+      border: 1px solid rgba(30,27,22,0.06);
     }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 
-    .title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      margin: 0;
-    }
+    .title { font-size: 22px; font-weight: 700; letter-spacing: 0.01em; margin: 0; }
 
-    .subtitle {
-      margin: 0;
-      color: rgba(17, 24, 39, 0.65);
-      font-size: 13px;
-    }
+    .subtitle { margin: 0; color: rgba(30,27,22,0.65); font-size: 13px; }
 
     /* Alerts */
-    .alerts {
-      margin-bottom: 16px;
-    }
+    .alerts { margin-bottom: 16px; }
+
     .alert {
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 14px;
-      line-height: 1.4;
+      line-height: 1.45;
       border: 1px solid transparent;
     }
     .alert + .alert { margin-top: 10px; }
 
     .alert-neutral {
-      background: rgba(17, 24, 39, 0.04);
-      color: rgba(17, 24, 39, 0.8);
-      border-color: rgba(17, 24, 39, 0.08);
+      background: rgba(30,27,22,0.04);
+      color: rgba(30,27,22,0.82);
+      border-color: rgba(30,27,22,0.10);
     }
     .alert-success {
-      background: rgba(14,165,233, 0.10);
-      color: #075985; /* darkened primary for contrast */
-      border-color: rgba(14,165,233, 0.25);
+      background: rgba(201,168,87,0.12);
+      color: #5a4f34;
+      border-color: rgba(201,168,87,0.35);
     }
+    /* Keep danger within palette for consistency */
     .alert-danger {
-      background: rgba(239, 68, 68, 0.10);
-      color: #7f1d1d;
-      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(30,27,22,0.04);
+      color: #5a4f34;
+      border-color: rgba(30,27,22,0.14);
     }
 
     /* Form */
-    form {
-      margin-top: 8px;
-      display: grid;
-      gap: 16px;
-    }
+    form { margin-top: 8px; display: grid; gap: 16px; }
 
     label {
       display: inline-block;
@@ -154,7 +115,7 @@
       font-size: 13px;
       margin-bottom: 6px;
       letter-spacing: 0.01em;
-      color: rgba(17, 24, 39, 0.9);
+      color: rgba(30,27,22,0.92);
     }
 
     input[type="text"],
@@ -164,55 +125,51 @@
       width: 100%;
       padding: 11px 12px;
       border-radius: 10px;
-      border: 1px solid rgba(17, 24, 39, 0.12);
+      border: 1px solid rgba(30,27,22,0.14);
       font-size: 14px;
       outline: none;
       background: var(--color-panel);
       color: var(--color-text);
-      transition: border-color .2s ease, box-shadow .2s ease;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
     }
 
     textarea { resize: vertical; min-height: 110px; }
 
     input:focus, textarea:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 4px rgba(14,165,233,0.18);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 4px rgba(201,168,87,0.22);
     }
 
-    .grid-2 {
-      display: grid;
-      gap: 12px;
-    }
-    @media (min-width: 640px) {
-      .grid-2 { grid-template-columns: 1fr 1fr; }
-    }
+    .grid-2 { display: grid; gap: 12px; }
+    @media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 
     .section-title {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
       margin: 6px 0 2px;
-      color: rgba(17,24,39,0.8);
+      color: rgba(30,27,22,0.8);
       letter-spacing: .02em;
+      font-family: "Playfair Display", Georgia, serif;
     }
 
-    /* Preview Card */
+    /* Preview */
     .preview {
       display: grid;
       gap: 12px;
-      background: linear-gradient(to bottom, rgba(17, 24, 39, 0.02), rgba(17, 24, 39, 0.0));
+      background: var(--color-panel);
       padding: 16px;
       border-radius: 14px;
-      border: 1px dashed rgba(17, 24, 39, 0.12);
+      border: 1px dashed rgba(30,27,22,0.18);
     }
 
     .product-image {
       width: 100%;
       height: 200px;
       border-radius: 12px;
-      background: rgba(17,24,39,0.06);
+      background: rgba(30,27,22,0.06);
       display: grid;
       place-items: center;
-      color: rgba(17, 24, 39, 0.6);
+      color: rgba(30,27,22,0.62);
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.02em;
@@ -220,65 +177,44 @@
 
     .product-info { text-align: center; }
 
-    .product-info h4 {
-      margin: 8px 0 4px;
-      font-size: 18px;
-      letter-spacing: 0.01em;
-    }
+    .product-info h4 { margin: 8px 0 4px; font-size: 18px; letter-spacing: 0.01em; }
 
-    .price-row {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-    .price {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--color-text);
-    }
-    .discounted {
-      font-size: 14px;
-      color: var(--color-danger);
-      text-decoration: line-through;
-    }
+    .price-row { display: inline-flex; align-items: baseline; gap: 10px; }
+
+    .price { font-size: 18px; font-weight: 800; color: var(--color-text); }
+
+    .discounted { font-size: 14px; color: var(--color-muted); text-decoration: line-through; }
 
     /* Actions */
-    .actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      padding-top: 6px;
-    }
+    .actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 6px; }
 
     button[type="submit"] {
       appearance: none;
-      border: 1px solid transparent;
-      background: var(--color-primary);
-      color: #ffffff;
+      border: 1px solid rgba(30,27,22,0.18);
+      background: var(--color-accent);
+      color: var(--color-text);
       padding: 12px 16px;
       min-width: 160px;
       border-radius: 10px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 15px;
       letter-spacing: 0.01em;
       cursor: pointer;
-      transition: transform .05s ease, box-shadow .2s ease, background .15s ease;
-      box-shadow: 0 10px 25px rgba(14,165,233,0.35);
+      transition: transform .05s ease, box-shadow .2s ease, background .15s ease, filter .15s ease;
+      box-shadow: 0 10px 20px rgba(201,168,87,0.28);
     }
     button[type="submit"]:hover {
-      background: #0284c7; /* darker primary tone */
-      box-shadow: 0 12px 28px rgba(14,165,233,0.42);
+      filter: brightness(0.96);
+      box-shadow: 0 12px 24px rgba(201,168,87,0.36);
     }
-    button[type="submit"]:active {
-      transform: translateY(1px);
+    button[type="submit"]:active { transform: translateY(1px); }
+    button[type="submit"]:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(201,168,87,0.25), 0 12px 24px rgba(201,168,87,0.36);
     }
 
     /* Small helper text */
-    .hint {
-      margin-top: 4px;
-      font-size: 12px;
-      color: rgba(17,24,39,0.65);
-    }
+    .hint { margin-top: 4px; font-size: 12px; color: rgba(107,103,95,0.9); }
   </style>
 </head>
 <body>
